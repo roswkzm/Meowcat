@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "289493244962",
+    "project_id": "meowcat-342e3",
+    "storage_bucket": "meowcat-342e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289493244962:android:1d983e9adb36c414cb3e7b",
+        "android_client_info": {
+          "package_name": "com.example.meowcat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "289493244962-kungo7v7igq7ubl3prldje5gv99g47do.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.meowcat",
+            "certificate_hash": "11c0156da1e066042b5c90493f65dacd9f3a9806"
+          }
+        },
+        {
+          "client_id": "289493244962-fjvpq2s2jlv0hmh237k2h4m5qm0deg4p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCwaCMX6nKiqFuOwhttt2IJQxFqq3CafM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "289493244962-fjvpq2s2jlv0hmh237k2h4m5qm0deg4p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
