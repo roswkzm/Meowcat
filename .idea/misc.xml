@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/drawable/btnone.xml" value="0.2490740740740741" />
         <entry key="app/src/main/res/drawable/textvw1.xml" value="0.2490740740740741" />
         <entry key="app/src/main/res/layout/activity_account_fragment.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/activity_add_photo.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_favorite_fragment.xml" value="0.22146739130434784" />
         <entry key="app/src/main/res/layout/activity_home_fragment.xml" value="0.22146739130434784" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />

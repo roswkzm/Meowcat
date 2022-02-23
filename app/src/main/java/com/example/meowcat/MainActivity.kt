@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import com.example.meowcat.navigation.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -40,6 +41,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.action_account -> {
+                //자신의 account인지 알아보기 위한 uid 넘기기
+                var bundle = Bundle()
+                var uid = FirebaseAuth.getInstance().currentUser?.uid
+                bundle.putString("destinationUid", uid)
+                AccountFragment().arguments = bundle
+
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, AccountFragment()).commit()
                 return true
             }
