@@ -160,7 +160,12 @@ class LoginActivity : AppCompatActivity() {
         auth?.signInWithEmailAndPassword(et_email.text.toString(), et_password.text.toString())?.addOnCompleteListener {
             task ->
             if (task.isSuccessful){
-                moveMainPage(task.result.user)
+                // 만약 이메일 링크 인증을 한 회원일 경우
+                if (auth?.currentUser?.isEmailVerified!!) {
+                    moveMainPage(task.result.user)
+                } else {
+                    Toast.makeText(this, "${et_email.text.toString()}에 접속하여 인증을 해주세요.", Toast.LENGTH_SHORT).show()
+                }
             }else{
                 Toast.makeText(this, task.exception?.message, Toast.LENGTH_SHORT).show()
             }
@@ -174,8 +179,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        moveMainPage(auth?.currentUser)
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        moveMainPage(auth?.currentUser)
+//    }
 }
