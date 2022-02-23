@@ -12,6 +12,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
+            android:name=".navigation.AccountFragment"
+            android:exported="false" />
+        <activity
+            android:name=".navigation.MessageFragment"
+            android:exported="false" />
+        <activity
+            android:name=".navigation.FavoriteFragment"
+            android:exported="false" />
+        <activity
+            android:name=".navigation.SearchFragment"
+            android:exported="false" />
+        <activity
+            android:name=".navigation.HomeFragment"
+            android:exported="false" />
+        <activity
+            android:name=".navigation.SearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".navigation.HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
@@ -25,7 +46,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -38,7 +59,8 @@
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
-            <intent-filter><action android:name="android.intent.action.VIEW" />
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -46,8 +68,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
-
     </application>
 
 </manifest>
