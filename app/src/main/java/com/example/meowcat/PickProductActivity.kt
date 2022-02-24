@@ -3,6 +3,7 @@ package com.example.meowcat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.meowcat.navigation.model.ContentDTO
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -21,6 +22,19 @@ class PickProductActivity : AppCompatActivity() {
         destinationUid = intent.getStringExtra("destinationUid")
         destinationUserId = intent.getStringExtra("destinationUserId")
 
+        // 회원 프사 매핑, 닉네임 매핑
+        FirebaseFirestore.getInstance().collection("users").document(destinationUid!!).addSnapshotListener { value, error ->
+            if(value == null) return@addSnapshotListener
+            if (value.data != null){
+                var url = value.data!!["imageUrl"]
+                Glide.with(this).load(url).apply(RequestOptions().circleCrop()).into(pickProduct_iv_profile)
+
+                // 회원 닉네임
+                pickProduct_tv_userId.text = " ${value.data!!["userNickName"]} 님의 게시물"
+            }
+        }
+
+
         FirebaseFirestore.getInstance().collection("images").document(contentUid!!).get().addOnSuccessListener { value ->
             if (value == null) return@addOnSuccessListener
 
@@ -36,8 +50,6 @@ class PickProductActivity : AppCompatActivity() {
             }
             // 고양이 종류
             pickProduct_tv_productType.text = " 종류 : ${value.data!!["productType"].toString()}"
-            // 회원 아이디
-            pickProduct_tv_userId.text = destinationUserId
 
         }
     }

@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="abcdeefg@naver.com"
-                android:textSize="16dp"
+                android:textSize="17sp"
                 android:textStyle="bold"/>
             <LinearLayout
                 android:layout_width="match_parent"
