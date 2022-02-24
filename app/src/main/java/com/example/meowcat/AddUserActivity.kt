@@ -60,7 +60,7 @@ class AddUserActivity : AppCompatActivity() {
 
         var storageRef = storage?.reference?.child("userProfiles")?.child(curuid!!)
 
-        if (addUser_iv_addPhoto == null || addUser_et_userNickName == null){
+        if (photoUri == null || addUser_et_userNickName.text.toString() == ""){
             Toast.makeText(this, "정보를 모두 입력해주세요.", Toast.LENGTH_SHORT).show()
         }else{
             storageRef?.putFile(photoUri!!)?.addOnCompleteListener {
@@ -82,4 +82,7 @@ class AddUserActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+            Toast.makeText(this,"작업을 완료해주세요.", Toast.LENGTH_SHORT).show()
+    }
 }
