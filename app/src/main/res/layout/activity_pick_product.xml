@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PickProductActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/pickProduct_iv_profile"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/ic_account"
+            android:layout_margin="5dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/pickProduct_tv_userId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="abcdeefg@naver.com"
+                android:textSize="16dp"
+                android:textStyle="bold"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/pickProduct_tv_productName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="똘비" />
+                <ImageView
+                    android:id="@+id/pickProduct_iv_productGender"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/male_symbol"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/pickProduct_tv_productType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="먼치킨"/>
+
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:orientation="horizontal"
+        android:background="@color/colorDivision"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/pickProduct_iv_productImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/pickProduct_tv_productExplain"
+            android:src="@drawable/male_symbol" />
+
+        <TextView
+            android:id="@+id/pickProduct_tv_productExplain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/pickProduct_commentLine" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            android:background="@color/colorDivision"
+            android:layout_above="@id/pickProduct_commentLine"/>
+
+        <LinearLayout
+            android:id="@+id/pickProduct_commentLine"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/pickProduct_iv_favorite"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/heart" />
+
+                <TextView
+                    android:id="@+id/pickProduct_tv_favoriteCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="like:100" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/pickProduct_iv_comment"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/comment" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/pickProduct_btn_moreProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="15dp"
+            android:text="판매자 상품 더보기"
+            android:textColor="@color/white"
+            android:backgroundTint="#E040FB"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

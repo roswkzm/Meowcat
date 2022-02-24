@@ -1,5 +1,6 @@
 package com.example.meowcat.navigation
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +11,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.meowcat.ContentDetailActivity
+import com.example.meowcat.PickProductActivity
 import com.example.meowcat.R
 import com.example.meowcat.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
@@ -78,6 +81,14 @@ class HomeFragment : Fragment(){
             }
 
             viewHolder.homeFragment_product_type.text = contentDTOs[position].productType
+
+            viewHolder.homeFragment_content_image.setOnClickListener {
+                var intent = Intent(context, PickProductActivity::class.java)
+                intent.putExtra("contentUidList", contentUidList[position])
+                intent.putExtra("destinationUid", contentDTOs[position].uid)
+                intent.putExtra("destinationUserId", contentDTOs[position].userId)
+                startActivity(intent)
+            }
         }
 
         override fun getItemCount(): Int {
