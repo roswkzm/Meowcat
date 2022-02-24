@@ -1,14 +1,18 @@
 package com.example.meowcat
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.example.meowcat.navigation.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -19,6 +23,19 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         setContentView(R.layout.activity_main)
         bottom_navigation.setOnNavigationItemSelectedListener(this)
         bottom_navigation.selectedItemId = R.id.action_home
+
+        val auth = FirebaseAuth.getInstance()
+
+        FirebaseFirestore.getInstance().collection("users").document(auth.currentUser!!.uid).get().addOnCompleteListener { task ->
+            if(task.isSuccessful){
+                if (task.result.exists()){
+                    return@addOnCompleteListener
+                }else{
+                    var intent = Intent(this, AddUserActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
