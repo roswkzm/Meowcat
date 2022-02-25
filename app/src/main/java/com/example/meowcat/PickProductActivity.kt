@@ -37,28 +37,34 @@ class PickProductActivity : AppCompatActivity() {
         }
 
 
-        FirebaseFirestore.getInstance().collection("images").document(contentUid!!).get().addOnSuccessListener { value ->
-            if (value == null) return@addOnSuccessListener
 
-            // 고양이 사진
-            Glide.with(this).load(value.data!!["imageUrl"]).into(pickProduct_iv_productImage)
-            // 고양이 이름
-            pickProduct_tv_productName.text = " 이름 : ${value.data!!["productName"].toString()}"
-            // 고양이 성별
-            if (value.data!!["productGender"] == "남"){
-                pickProduct_iv_productGender.setImageResource(R.drawable.male_symbol)
-            }else if(value.data!!["productGender"] == "여"){
-                pickProduct_iv_productGender.setImageResource(R.drawable.female_symbol)
-            }
-            // 고양이 종류
-            pickProduct_tv_productType.text = " 종류 : ${value.data!!["productType"].toString()}"
-            // 좋아요 개수
-            pickProduct_tv_favoriteCount.text = "like: ${value.data!!["favoriteCount"].toString()}"
-            // 회원이 이미 좋아요를 누르고있다면
-            if(value.data!!["favorites"].toString().contains(FirebaseAuth.getInstance().currentUser!!.uid)){
-                pickProduct_iv_favorite.setImageResource(R.drawable.heart)
-            }else{
-                pickProduct_iv_favorite.setImageResource(R.drawable.empty_heart)
+        FirebaseFirestore.getInstance().collection("images").document(contentUid!!).addSnapshotListener { value, error ->
+            if (value == null) return@addSnapshotListener
+
+            if (value != null) {
+                // 고양이 사진
+                Glide.with(this).load(value.data!!["imageUrl"]).into(pickProduct_iv_productImage)
+                // 고양이 이름
+                pickProduct_tv_productName.text = " 이름 : ${value.data!!["productName"].toString()}"
+                // 고양이 성별
+                if (value.data!!["productGender"] == "남") {
+                    pickProduct_iv_productGender.setImageResource(R.drawable.male_symbol)
+                } else if (value.data!!["productGender"] == "여") {
+                    pickProduct_iv_productGender.setImageResource(R.drawable.female_symbol)
+                }
+                // 고양이 종류
+                pickProduct_tv_productType.text = " 종류 : ${value.data!!["productType"].toString()}"
+                // 좋아요 개수
+                pickProduct_tv_favoriteCount.text =
+                    "like: ${value.data!!["favoriteCount"]}"
+                // 회원이 이미 좋아요를 누르고있다면
+                if (value.data!!["favorites"].toString()
+                        .contains(FirebaseAuth.getInstance().currentUser!!.uid)
+                ) {
+                    pickProduct_iv_favorite.setImageResource(R.drawable.heart)
+                } else {
+                    pickProduct_iv_favorite.setImageResource(R.drawable.empty_heart)
+                }
             }
         }
 
@@ -77,28 +83,19 @@ class PickProductActivity : AppCompatActivity() {
 
             var contentDTO = transaction.get(tsDoc!!).toObject(ContentDTO::class.java)      // contentDTO에 값을 캐스팅
 
-//            if(contentDTO!!.favorites[FirebaseAuth.getInstance().currentUser!!.uid] == null){
-//                Log.d("ㅎㅇㅎㅇㅎㅇ", contentDTO!!.favorites[FirebaseAuth.getInstance().currentUser!!.uid].toString())
-//                contentDTO!!.favoriteCount = contentDTO!!.favoriteCount+1
-//                contentDTO!!.favorites[FirebaseAuth.getInstance().currentUser!!.uid] = true
-//                transaction.set(tsDoc, contentDTO)
-//                return@runTransaction
-//            }
 
             //회원이 이미 좋아요를 누른상태
             if (contentDTO!!.favorites.containsKey(FirebaseAuth.getInstance().currentUser!!.uid)){
                 contentDTO?.favoriteCount = contentDTO?.favoriteCount -1        // 좋아요 -1
                 contentDTO?.favorites.remove(FirebaseAuth.getInstance().currentUser!!.uid)      // 좋아요누른회원에서 제거
                 pickProduct_iv_favorite.setImageResource(R.drawable.empty_heart)
-                pickProduct_tv_favoriteCount.text = "like: ${contentDTO?.favoriteCount.toString()}"
             }else{  // 좋아요를 누르지 않았다면
                 contentDTO?.favoriteCount = contentDTO?.favoriteCount +1    // 좋아요 +1
                 contentDTO?.favorites[FirebaseAuth.getInstance().currentUser!!.uid] = true      // 좋아요누른 회원 추가
                 pickProduct_iv_favorite.setImageResource(R.drawable.heart)
-                pickProduct_tv_favoriteCount.text = "like: ${contentDTO?.favoriteCount.toString()}"
             }
             // 트랜잭션의 결과를 서버로 되돌려준다.
             transaction.set(tsDoc, contentDTO)
-        }
+       }
     }
 }
