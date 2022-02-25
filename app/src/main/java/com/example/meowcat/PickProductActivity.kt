@@ -2,9 +2,11 @@ package com.example.meowcat
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.meowcat.navigation.model.ContentDTO
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_pick_product.*
@@ -50,7 +52,53 @@ class PickProductActivity : AppCompatActivity() {
             }
             // 고양이 종류
             pickProduct_tv_productType.text = " 종류 : ${value.data!!["productType"].toString()}"
+            // 좋아요 개수
+            pickProduct_tv_favoriteCount.text = "like: ${value.data!!["favoriteCount"].toString()}"
+            // 회원이 이미 좋아요를 누르고있다면
+            if(value.data!!["favorites"].toString().contains(FirebaseAuth.getInstance().currentUser!!.uid)){
+                pickProduct_iv_favorite.setImageResource(R.drawable.heart)
+            }else{
+                pickProduct_iv_favorite.setImageResource(R.drawable.empty_heart)
+            }
+        }
 
+        // 좋아요버튼 클릭시
+        pickProduct_iv_favorite.setOnClickListener {
+            favoriteEvent()
+        }
+    }
+
+    fun favoriteEvent(){
+        // tsDoc -> 저장소 접근
+        var tsDoc = FirebaseFirestore.getInstance().collection("images")?.document(contentUid!!)
+
+        // 데이터를 입력하기 위해 transaction을 불러온다
+        FirebaseFirestore.getInstance().runTransaction { transaction ->
+
+            var contentDTO = transaction.get(tsDoc!!).toObject(ContentDTO::class.java)      // contentDTO에 값을 캐스팅
+
+//            if(contentDTO!!.favorites[FirebaseAuth.getInstance().currentUser!!.uid] == null){
+//                Log.d("ㅎㅇㅎㅇㅎㅇ", contentDTO!!.favorites[FirebaseAuth.getInstance().currentUser!!.uid].toString())
+//                contentDTO!!.favoriteCount = contentDTO!!.favoriteCount+1
+//                contentDTO!!.favorites[FirebaseAuth.getInstance().currentUser!!.uid] = true
+//                transaction.set(tsDoc, contentDTO)
+//                return@runTransaction
+//            }
+
+            //회원이 이미 좋아요를 누른상태
+            if (contentDTO!!.favorites.containsKey(FirebaseAuth.getInstance().currentUser!!.uid)){
+                contentDTO?.favoriteCount = contentDTO?.favoriteCount -1        // 좋아요 -1
+                contentDTO?.favorites.remove(FirebaseAuth.getInstance().currentUser!!.uid)      // 좋아요누른회원에서 제거
+                pickProduct_iv_favorite.setImageResource(R.drawable.empty_heart)
+                pickProduct_tv_favoriteCount.text = "like: ${contentDTO?.favoriteCount.toString()}"
+            }else{  // 좋아요를 누르지 않았다면
+                contentDTO?.favoriteCount = contentDTO?.favoriteCount +1    // 좋아요 +1
+                contentDTO?.favorites[FirebaseAuth.getInstance().currentUser!!.uid] = true      // 좋아요누른 회원 추가
+                pickProduct_iv_favorite.setImageResource(R.drawable.heart)
+                pickProduct_tv_favoriteCount.text = "like: ${contentDTO?.favoriteCount.toString()}"
+            }
+            // 트랜잭션의 결과를 서버로 되돌려준다.
+            transaction.set(tsDoc, contentDTO)
         }
     }
 }
