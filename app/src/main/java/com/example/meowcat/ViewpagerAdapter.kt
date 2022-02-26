@@ -21,19 +21,18 @@ import kotlinx.android.synthetic.main.item_home.view.*
 class ViewpagerAdapter (var destinationUid : String) : RecyclerView.Adapter<ViewpagerAdapter.ViewPagerViewHolder>(){
     var contentDTOs : ArrayList<ContentDTO> = arrayListOf()
     var contentUid : ArrayList<String> = arrayListOf()
+
     var uid = FirebaseAuth.getInstance().currentUser?.uid
 
     init {
         FirebaseFirestore.getInstance().collection("images").whereEqualTo("uid", destinationUid)
             .orderBy("timestamp",Query.Direction.DESCENDING).addSnapshotListener { value, error ->
-                contentDTOs.clear()
-                contentUid.clear()
                 if (value == null) return@addSnapshotListener
 
                 for (snapshot in value.documents){
                     contentUid.add(snapshot.id)
-                    Log.d("ㅎㅇㅎㅇㅎㅇㅎㅇ", snapshot.toObject(ContentDTO::class.java)!!.toString())
                     contentDTOs.add(snapshot.toObject(ContentDTO::class.java)!!)
+
                 }
                 notifyDataSetChanged()
             }
