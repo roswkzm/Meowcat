@@ -7,6 +7,16 @@
     android:orientation="vertical"
     tools:context=".ContentDetailActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/navi_logo"/>
+    </androidx.appcompat.widget.Toolbar>
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/contentDetail_viewpager"
         android:layout_width="match_parent"

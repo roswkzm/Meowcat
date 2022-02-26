@@ -1,5 +1,6 @@
 package com.example.meowcat
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -54,6 +55,8 @@ class PickProductActivity : AppCompatActivity() {
                 }
                 // 고양이 종류
                 pickProduct_tv_productType.text = " 종류 : ${value.data!!["productType"].toString()}"
+                // 고양이 설명
+                pickProduct_tv_productExplain.text = value.data!!["productExplain"].toString()
                 // 좋아요 개수
                 pickProduct_tv_favoriteCount.text =
                     "like: ${value.data!!["favoriteCount"]}"
@@ -71,6 +74,21 @@ class PickProductActivity : AppCompatActivity() {
         // 좋아요버튼 클릭시
         pickProduct_iv_favorite.setOnClickListener {
             favoriteEvent()
+        }
+
+        // 댓글버튼 클릭시
+        pickProduct_iv_comment.setOnClickListener {
+            var intent = Intent(this,CommentActivity::class.java)
+            intent.putExtra("contentUid", contentUid)
+            intent.putExtra("destinationUid", destinationUid)
+            startActivity(intent)
+        }
+
+        // 판매자 상품 더보기 버튼 클릭시
+        pickProduct_btn_moreProduct.setOnClickListener {
+            var intent = Intent(this, ContentDetailActivity::class.java)
+            intent.putExtra("destinationUid", destinationUid)
+            startActivity(intent)
         }
     }
 
