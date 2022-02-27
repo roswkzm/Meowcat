@@ -11,11 +11,11 @@
         <entry key="app/src/main/res/layout/activity_add_photo.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_add_user.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_comment.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_content_detail.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_content_detail.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_favorite_fragment.xml" value="0.22146739130434784" />
         <entry key="app/src/main/res/layout/activity_home_fragment.xml" value="0.22146739130434784" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.23233695652173914" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_message_fragment.xml" value="0.22146739130434784" />
         <entry key="app/src/main/res/layout/activity_pick_product.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.22871376811594202" />

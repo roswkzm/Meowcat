@@ -3,6 +3,7 @@ package com.example.meowcat
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.TextKeyListener.clear
 import android.util.Log
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -43,8 +44,13 @@ class PickProductActivity : AppCompatActivity() {
             if (value == null) return@addSnapshotListener
 
             if (value != null) {
+
+                // Glide에 이미지가 들어가기 전에 OnBackPressd가 실행되어 이미지가 올라갈 공간이 없을경우에 대한 오류 방지
+                if (this.isFinishing){
+                    return@addSnapshotListener
+                }
                 // 고양이 사진
-                Glide.with(this).load(value.data!!["imageUrl"]).into(pickProduct_iv_productImage)
+                Glide.with(this).load(value.data?.get("imageUrl")).into(pickProduct_iv_productImage)
                 // 고양이 이름
                 pickProduct_tv_productName.text = " 이름 : ${value.data!!["productName"].toString()}"
                 // 고양이 성별

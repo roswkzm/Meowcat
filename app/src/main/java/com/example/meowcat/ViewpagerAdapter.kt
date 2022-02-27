@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -21,18 +20,18 @@ import kotlinx.android.synthetic.main.item_home.view.*
 class ViewpagerAdapter (var destinationUid : String) : RecyclerView.Adapter<ViewpagerAdapter.ViewPagerViewHolder>(){
     var contentDTOs : ArrayList<ContentDTO> = arrayListOf()
     var contentUid : ArrayList<String> = arrayListOf()
-
     var uid = FirebaseAuth.getInstance().currentUser?.uid
 
+    // 개짓거리 시작
     init {
         FirebaseFirestore.getInstance().collection("images").whereEqualTo("uid", destinationUid)
             .orderBy("timestamp",Query.Direction.DESCENDING).addSnapshotListener { value, error ->
+
                 if (value == null) return@addSnapshotListener
 
                 for (snapshot in value.documents){
                     contentUid.add(snapshot.id)
-                    contentDTOs.add(snapshot.toObject(ContentDTO::class.java)!!)
-
+//                    contentDTOs.add(snapshot.toObject(ContentDTO::class.java)!!)
                 }
                 notifyDataSetChanged()
             }
@@ -47,7 +46,8 @@ class ViewpagerAdapter (var destinationUid : String) : RecyclerView.Adapter<View
     }
 
     override fun onBindViewHolder(holder: ViewpagerAdapter.ViewPagerViewHolder, position: Int) {
-        val view = holder.itemView
+        val view = (holder as ViewPagerViewHolder).itemView
+
         // 회원 프사 매핑, 닉네임 매핑
         FirebaseFirestore.getInstance().collection("users").document(destinationUid).addSnapshotListener { value, error ->
             if(value == null) return@addSnapshotListener
@@ -59,31 +59,37 @@ class ViewpagerAdapter (var destinationUid : String) : RecyclerView.Adapter<View
                 view.pickProduct_tv_userId.text = value.data!!["userNickName"].toString()
             }
         }
-        // 고양이 이름
-        view.pickProduct_tv_productName.text = contentDTOs[position].productName
-        // 고양이 성별
-        if (contentDTOs[position].productGender == "남") {
-            view.pickProduct_iv_productGender.setImageResource(R.drawable.male_symbol)
-        } else if (contentDTOs[position].productGender == "여") {
-            view.pickProduct_iv_productGender.setImageResource(R.drawable.female_symbol)
-        }
-        // 고양이 품종
-        view.pickProduct_tv_productType.text = contentDTOs[position].productType
-        // 고양이 사진
-        var url = contentDTOs[position].imageUrl
-        Glide.with(view.context).load(url).into(view.pickProduct_iv_productImage)
-        // 좋아요 버튼 이미지 초기 세팅
-        if (contentDTOs[position].favorites.containsKey(uid)){
-            view.pickProduct_iv_favorite.setImageResource(R.drawable.heart)
-        }else{
-            view.pickProduct_iv_favorite.setImageResource(R.drawable.empty_heart)
+        FirebaseFirestore.getInstance().collection("images").document(contentUid[position]).addSnapshotListener { value, error ->
+            if (value == null) return@addSnapshotListener
+            if(value.data != null){
+                // 고양이 이름
+                view.pickProduct_tv_productName.text = value.data!!["productName"].toString()
+                // 고양이 성별
+                if (value.data!!["productGender"].toString() == "남") {
+                    view.pickProduct_iv_productGender.setImageResource(R.drawable.male_symbol)
+                } else if (value.data!!["productGender"].toString() == "여") {
+                    view.pickProduct_iv_productGender.setImageResource(R.drawable.female_symbol)
+                }
+                // 고양이 품종
+                view.pickProduct_tv_productType.text = value.data!!["productType"].toString()
+                // 고양이 사진
+                var url = value.data!!["imageUrl"].toString()
+                Glide.with(view.context).load(url).into(view.pickProduct_iv_productImage)
+                // 좋아요 버튼 이미지 초기 세팅
+                if (value.data!!["favorites"].toString().contains(uid!!)){
+                    view.pickProduct_iv_favorite.setImageResource(R.drawable.heart)
+                }else{
+                    view.pickProduct_iv_favorite.setImageResource(R.drawable.empty_heart)
+                }
+                // 좋아요 갯수 표시안함
+                view.pickProduct_tv_favoriteCount.text = "like: ${value.data!!["favoriteCount"]}"
+                view.pickProduct_tv_productExplain.text = value.data!!["productExplain"].toString()
+            }
         }
         // 좋아요 버튼 클릭시
         view.pickProduct_iv_favorite.setOnClickListener {
             favoriteEvent(position)
         }
-        // 좋아요 갯수
-        view.pickProduct_tv_favoriteCount.text = "like: ${contentDTOs[position].favoriteCount}"
         // 댓글 버튼
         view.pickProduct_iv_comment.setOnClickListener {
             var intent = Intent(view.context, CommentActivity::class.java)
@@ -97,7 +103,7 @@ class ViewpagerAdapter (var destinationUid : String) : RecyclerView.Adapter<View
     }
 
     override fun getItemCount(): Int {
-        return contentDTOs.size
+        return contentUid.size
     }
 
     fun favoriteEvent(position: Int){
@@ -105,7 +111,7 @@ class ViewpagerAdapter (var destinationUid : String) : RecyclerView.Adapter<View
 
         FirebaseFirestore.getInstance().runTransaction { transaction ->
 
-            var contentDTO = transaction.get(tsDoc).toObject(ContentDTO::class.java)    // contentDTO에 정보 캐스팅
+            var contentDTO = transaction.get(tsDoc!!).toObject(ContentDTO::class.java)    // contentDTO에 정보 캐스팅
 
             if (contentDTO!!.favorites.containsKey(uid)){   // 좋아요를 누른 상태라면
                 contentDTO?.favoriteCount = contentDTO.favoriteCount -1
