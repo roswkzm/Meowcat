@@ -17,7 +17,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/round_backgroud_border_black"
             android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
     <LinearLayout

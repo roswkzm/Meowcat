@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:paddingEnd="30dp"
-        android:paddingStart="30dp"/>
+        android:paddingEnd="20dp"
+        android:paddingStart="20dp"/>
 
 </LinearLayout>

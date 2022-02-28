@@ -5,14 +5,17 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.meowcat.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_add_photo.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashMap
 
 class AddPhotoActivity : AppCompatActivity() {
     val PICK_IMAGE_FROM_ALBUM = 0
@@ -37,6 +40,7 @@ class AddPhotoActivity : AppCompatActivity() {
         }
 
         addphoto_btn_upload.setOnClickListener {
+            productTypeUpload()
             contentUpload()
         }
     }
@@ -50,6 +54,30 @@ class AddPhotoActivity : AppCompatActivity() {
                 iv_addPhotoImage.setImageURI(photoUri)
             }else{
                 finish()
+            }
+        }
+    }
+    fun productTypeUpload(){
+        var productType : MutableMap<String, Boolean> = HashMap()
+        FirebaseFirestore.getInstance().collection("information").document("productType").get().addOnSuccessListener { task ->
+            if (task == null) {
+                Log.d("ㅎㅇㅎㅇ", "null")
+                return@addOnSuccessListener
+            }
+            if (task.data == null){
+                Log.d("ㅎㅇㅎㅇ", "데이터 눌")
+                productType[et_productType.text.toString()] = true
+                FirebaseFirestore.getInstance().collection("information").document("productType").set(productType)
+                return@addOnSuccessListener
+            }
+            if (task.data?.containsKey(et_productType.text.toString()) == true){
+                Log.d("ㅎㅇㅎㅇ", "if")
+                return@addOnSuccessListener
+            }else{
+                Log.d("ㅎㅇㅎㅇ", "else")
+                productType[et_productType.text.toString()] = true
+                FirebaseFirestore.getInstance().collection("information").document("productType").set(productType,
+                    SetOptions.merge())
             }
         }
     }

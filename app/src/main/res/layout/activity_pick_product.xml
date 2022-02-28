@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/round_backgroud_border_black"
     tools:context=".PickProductActivity">
 
     <LinearLayout
@@ -72,7 +73,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/pickProduct_tv_productExplain"
-            android:src="@drawable/male_symbol" />
+            android:src="@drawable/male_symbol"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"/>
 
         <TextView
             android:id="@+id/pickProduct_tv_productExplain"
