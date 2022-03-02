@@ -39,16 +39,17 @@
             android:id="@+id/searchFragment_spinner"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
             android:layout_toLeftOf="@id/searchFragment_btn_search" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/searchFragment_btn_search"
             android:layout_width="70dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/magnifie"
-            />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/magnifie" />
     </RelativeLayout>
 
     <LinearLayout
