@@ -113,12 +113,12 @@ class ViewpagerAdapter (var destinationUid : String) : RecyclerView.Adapter<View
 
             var contentDTO = transaction.get(tsDoc!!).toObject(ContentDTO::class.java)    // contentDTO에 정보 캐스팅
 
-            if (contentDTO!!.favorites.containsKey(uid)){   // 좋아요를 누른 상태라면
+            if (contentDTO!!.favorites.contains(uid)){   // 좋아요를 누른 상태라면
                 contentDTO?.favoriteCount = contentDTO.favoriteCount -1
                 contentDTO?.favorites.remove(uid)
             }else{      // 좋아요를 누르지 않은 상태라면
                 contentDTO?.favoriteCount = contentDTO.favoriteCount +1
-                contentDTO?.favorites[uid!!] = true
+                contentDTO?.favorites.add(uid!!)
             }
             transaction.set(tsDoc, contentDTO)
         }

@@ -109,13 +109,13 @@ class PickProductActivity : AppCompatActivity() {
 
 
             //회원이 이미 좋아요를 누른상태
-            if (contentDTO!!.favorites.containsKey(FirebaseAuth.getInstance().currentUser!!.uid)){
+            if (contentDTO!!.favorites.contains(FirebaseAuth.getInstance().currentUser!!.uid)){
                 contentDTO?.favoriteCount = contentDTO?.favoriteCount -1        // 좋아요 -1
                 contentDTO?.favorites.remove(FirebaseAuth.getInstance().currentUser!!.uid)      // 좋아요누른회원에서 제거
                 pickProduct_iv_favorite.setImageResource(R.drawable.empty_heart)
             }else{  // 좋아요를 누르지 않았다면
                 contentDTO?.favoriteCount = contentDTO?.favoriteCount +1    // 좋아요 +1
-                contentDTO?.favorites[FirebaseAuth.getInstance().currentUser!!.uid] = true      // 좋아요누른 회원 추가
+                contentDTO?.favorites.add(FirebaseAuth.getInstance().currentUser!!.uid)      // 좋아요누른 회원 추가
                 pickProduct_iv_favorite.setImageResource(R.drawable.heart)
             }
             // 트랜잭션의 결과를 서버로 되돌려준다.

@@ -24,7 +24,7 @@
         <entry key="app/src/main/res/layout/item_comment.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_contentDetail.xml" value="0.21331521739130435" />
         <entry key="app/src/main/res/layout/item_content_detail.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/item_home.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/item_home.xml" value="0.25" />
         <entry key="app/src/main/res/menu/bottom_navigation_main.xml" value="0.3098958333333333" />
       </map>
     </option>

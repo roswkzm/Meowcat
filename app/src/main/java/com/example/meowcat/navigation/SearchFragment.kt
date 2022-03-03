@@ -41,6 +41,7 @@ class SearchFragment : Fragment(){
         CoroutineScope(Dispatchers.IO).launch {
 //            runBlocking {
                 val spinnerValue = async { getSpinnerList() }
+            Log.d("favoriteList", spinnerValue.toString())
 
                 withContext(Dispatchers.Main){
                     Log.d("ㅎㅇㅎㅇ", "어댑터 생성 전")
@@ -73,6 +74,7 @@ class SearchFragment : Fragment(){
         Log.d("ㅎㅇㅎㅇ", "값 넣기 전")
         spinnerList = ArrayList(storeData)
         Log.d("ㅎㅇㅎㅇ", "값 넣기 후")
+        Log.d("favoriteList", spinnerList.toString())
         Log.d("ㅎㅇㅎㅇ", "Firebase에서 종료")
         return spinnerList!!
     }
