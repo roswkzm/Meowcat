@@ -8,9 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.meowcat.AddPhotoActivity
+import com.example.meowcat.LoginActivity
 import com.example.meowcat.MainActivity
 import com.example.meowcat.R
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_account_fragment.*
+import kotlinx.android.synthetic.main.activity_account_fragment.view.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class AccountFragment : Fragment(){
@@ -36,6 +39,11 @@ class AccountFragment : Fragment(){
                 startActivity(intent)
             }
 
+        }
+        view.btn_logout.setOnClickListener {
+            var intent = Intent(activity, LoginActivity::class.java)
+            startActivity(intent)
+            auth?.signOut()
         }
         return view
     }

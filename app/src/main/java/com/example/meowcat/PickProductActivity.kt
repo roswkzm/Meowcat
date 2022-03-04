@@ -74,6 +74,12 @@ class PickProductActivity : AppCompatActivity() {
                 } else {
                     pickProduct_iv_favorite.setImageResource(R.drawable.empty_heart)
                 }
+                // 메시지 버튼 클릭시
+                pickProduct_iv_message.setOnClickListener {
+                    var intent = Intent(this, MessageActivity::class.java)
+                    intent.putExtra("destinationUid", value.data!!["uid"].toString())
+                    startActivity(intent)
+                }
             }
         }
 

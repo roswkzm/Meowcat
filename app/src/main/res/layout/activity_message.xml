@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MessageActivity">
+
+    <Toolbar
+        android:id="@+id/messageActivity_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+        <ImageView
+            android:id="@+id/messageActivity_userImage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/logo_picture" />
+
+        <TextView
+            android:id="@+id/messageActivity_userName"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="ㅇㅇㅇ님과의 대화"
+            android:textSize="21sp"
+            android:textStyle="bold"/>
+    </Toolbar>
+    <LinearLayout
+        android:id="@+id/messageActiviry_toolbar_division"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:orientation="horizontal"
+        android:background="@color/colorDivision"
+        android:layout_below="@id/messageActivity_toolbar"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/messageActivity_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/messageActivity_recyclerView_devision"
+        android:layout_below="@id/messageActiviry_toolbar_division" />
+
+    <LinearLayout
+        android:id="@+id/messageActivity_recyclerView_devision"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:orientation="horizontal"
+        android:background="@color/colorDivision"
+        android:layout_above="@id/messageActivity_btn_send"/>
+
+    <EditText
+        android:id="@+id/messageActivity_et_message"
+        android:layout_width="320dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toLeftOf="@id/messageActivity_btn_send"
+        android:textSize="13dp" />
+
+    <Button
+        android:id="@+id/messageActivity_btn_send"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="#99FFBB33"
+        android:text="전송"
+        android:textSize="13dp" />
+
+</RelativeLayout>

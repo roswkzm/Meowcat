@@ -73,9 +73,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/pickProduct_tv_productExplain"
-            android:src="@drawable/male_symbol"
             android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"/>
+            android:layout_marginRight="1dp"
+            android:src="@drawable/male_symbol" />
 
         <TextView
             android:id="@+id/pickProduct_tv_productExplain"
@@ -123,6 +123,16 @@
                 android:layout_height="45dp"
                 android:layout_margin="5dp"
                 android:src="@drawable/comment" />
+
+            <ImageView
+                android:id="@+id/pickProduct_iv_message"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="12dp"
+                android:src="@drawable/message"/>
 
         </LinearLayout>
 

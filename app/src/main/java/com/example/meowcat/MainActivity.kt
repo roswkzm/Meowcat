@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.action_message -> {
-                supportFragmentManager.beginTransaction().replace(R.id.main_content, MessageFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.main_content, MessageListFragment()).commit()
                 return true
             }
             R.id.action_account -> {
