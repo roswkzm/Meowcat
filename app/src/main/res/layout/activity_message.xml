@@ -9,7 +9,9 @@
     <Toolbar
         android:id="@+id/messageActivity_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:background="#FAFAFA">
+
         <ImageView
             android:id="@+id/messageActivity_userImage"
             android:layout_width="40dp"
@@ -23,7 +25,7 @@
             android:layout_height="40dp"
             android:text="ㅇㅇㅇ님과의 대화"
             android:textSize="21sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </Toolbar>
     <LinearLayout
         android:id="@+id/messageActiviry_toolbar_division"
@@ -32,6 +34,7 @@
         android:orientation="horizontal"
         android:background="@color/colorDivision"
         android:layout_below="@id/messageActivity_toolbar"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messageActivity_recyclerView"
@@ -54,8 +57,8 @@
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginRight="2dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginRight="2dp"
         android:layout_toLeftOf="@id/messageActivity_btn_send"
         android:textSize="13dp" />
 
