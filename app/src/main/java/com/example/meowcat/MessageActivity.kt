@@ -34,11 +34,19 @@ class MessageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_message)
 
         // 지금 내가 대화를 건 상대(대화를 당하는 아이디)
-        destinationUid = intent.getStringExtra("destinationUid")
+        destinationUid = intent.getStringExtra("destinationUid")    // 오바마의 uid
         // 대화 신청을 건 아이디(대화를 요규한 아이디)
         uid = FirebaseAuth.getInstance().currentUser?.uid
 
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        // 누구와 채팅을 하는지 보여줄 imageView와 이름 출력하기
+        FirebaseFirestore.getInstance().collection("users").document(destinationUid!!).get().addOnCompleteListener { value ->
+            if (value.isSuccessful){
+                var url = value.result.data!!["imageUrl"]
+                // 누구와 채팅을 하는지 보여줄 imageView와 이름 출력하기
+                Glide.with(this).load(url).apply(RequestOptions().circleCrop()).into(messageActivity_userImage)
+                messageActivity_userName.text = "${value.result.data!!["userNickName"]}님과의 대화"
+            }
+        }
 
         checkChatRoom()     // 방이 있는지 없는지 체크한다.
 
@@ -67,6 +75,7 @@ class MessageActivity : AppCompatActivity() {
                     messageDTO.timestamp = System.currentTimeMillis()
 
                     FirebaseFirestore.getInstance().collection("chatRooms").document(chatRoomUid!!).collection("comments").document().set(messageDTO)
+                    // 메시지 전송후 text 비우기
                     messageActivity_et_message.setText("")
                 }
             }
@@ -74,17 +83,23 @@ class MessageActivity : AppCompatActivity() {
     }
 
     fun checkChatRoom() {
-        FirebaseFirestore.getInstance().collection("chatRooms").whereArrayContainsAny("users", listOf(uid!!, destinationUid!!))
+        // 이부분에서 users에 uid와 destination이 둘다 일치해야 하는데 whereArrayContains 함수는 or절로만 지원해서 둘중에 하나라도 있으면 연결된다
+        // 문제 해결방안 -> DB에서 Data를 가져올때 2가지를 비교해야한다. uid & destinationUid
+        // 먼저 uid가 포함되어있는걸 찾은 후에 정보를 가져오고 그중에서 destinationUid가 포함되있는것만 고르는 로직으로 변경
+        FirebaseFirestore.getInstance().collection("chatRooms").whereArrayContains("users",uid!!)
             .get().addOnCompleteListener { value ->
                 if (value.isSuccessful){
                     for (document in value.result) {
-                        chatRoomUid = document.id
-                        Log.d("ㅎㅇㅎㅇ체크쳇룸", chatRoomUid.toString())
-                        Log.d("ㅎㅇㅎㅇ", "어댑터 연결 전")
-                        messageActivity_recyclerView.adapter = MessageRecyclerViewAdapter()
-                        Log.d("ㅎㅇㅎㅇ", "어댑터 연결 후")
-                        messageActivity_recyclerView.layoutManager = LinearLayoutManager(this)
-                        Log.d("ㅎㅇㅎㅇ", "레이아웃 매니저 연결 후 ")
+                        if (document.data["users"].toString().contains(destinationUid!!)) {
+                            chatRoomUid = document.id
+                            Log.d("ㅎㅇㅎㅇ2222", document.data["users"].toString().contains(destinationUid!!).toString())
+                            Log.d("ㅎㅇㅎㅇ체크쳇룸", chatRoomUid.toString())
+                            Log.d("ㅎㅇㅎㅇ", "어댑터 연결 전")
+                            messageActivity_recyclerView.adapter = MessageRecyclerViewAdapter()
+                            Log.d("ㅎㅇㅎㅇ", "어댑터 연결 후")
+                            messageActivity_recyclerView.layoutManager = LinearLayoutManager(this)
+                            Log.d("ㅎㅇㅎㅇ", "레이아웃 매니저 연결 후 ")
+                        }
                     }
                 }
             }
@@ -145,6 +160,10 @@ class MessageActivity : AppCompatActivity() {
             // 메시지 보낸 시간
             viewHolder.messageItem_textview_timestamp.text = sendTime
 
+            // 메시지의 가독성을 높이기 위해 message가 5개이상으로 쌓이게되면 키보드에 맞게 latout을 밀어 가려지는 부분이 없도록 만든다.
+            if (messages.size > 5){
+                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+            }
         }
 
         override fun getItemCount(): Int {

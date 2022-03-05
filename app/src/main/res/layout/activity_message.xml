@@ -25,7 +25,8 @@
             android:layout_height="40dp"
             android:text="ㅇㅇㅇ님과의 대화"
             android:textSize="21sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"/>
     </Toolbar>
     <LinearLayout
         android:id="@+id/messageActiviry_toolbar_division"

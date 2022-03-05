@@ -29,6 +29,8 @@ class AddUserActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
+        addUser_tv_UserId.text = auth?.currentUser?.email
+
         addUser_iv_addPhoto.setOnClickListener {
             var photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
