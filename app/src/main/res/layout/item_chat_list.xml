@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/item_chat_list_userProfile"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/main_logo"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/item_chat_list_userNickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="대화 상대"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/item_chat_list_lastMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="마지막 메시지"
+            android:layout_below="@id/item_chat_list_userNickName"
+            android:layout_margin="10dp"
+            android:textColor="#AAAAAA"/>
+
+        <TextView
+            android:id="@+id/item_chat_list_timeStamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2022.03.08 13:42"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:textSize="12dp"
+            android:textColor="#AAAAAA"
+            android:layout_margin="10dp"/>
+    </RelativeLayout>
+</LinearLayout>

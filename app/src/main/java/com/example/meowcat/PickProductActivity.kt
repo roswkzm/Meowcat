@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.TextKeyListener.clear
 import android.util.Log
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.meowcat.navigation.model.ContentDTO
@@ -76,9 +77,13 @@ class PickProductActivity : AppCompatActivity() {
                 }
                 // 메시지 버튼 클릭시
                 pickProduct_iv_message.setOnClickListener {
-                    var intent = Intent(this, MessageActivity::class.java)
-                    intent.putExtra("destinationUid", value.data!!["uid"].toString())
-                    startActivity(intent)
+                    if (FirebaseAuth.getInstance().currentUser!!.uid == value.data!!["uid"].toString()){
+                        Toast.makeText(this,"내가 판매중인 상품입니다.", Toast.LENGTH_SHORT).show()
+                    }else{
+                        var intent = Intent(this, MessageActivity::class.java)
+                        intent.putExtra("destinationUid", value.data!!["uid"].toString())
+                        startActivity(intent)
+                    }
                 }
             }
         }
