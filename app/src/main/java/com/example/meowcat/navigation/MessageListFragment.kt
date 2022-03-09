@@ -125,6 +125,12 @@ class MessageListFragment : Fragment(){
 
             viewHolder.item_chat_list_timeStamp.text = sendTime
 
+            // 해당영역 클릭시 체팅방 입장
+            viewHolder.setOnClickListener {
+                var intent = Intent(activity, MessageActivity::class.java)
+                intent.putExtra("destinationUid", chatDTOs[position].users[0])
+                startActivity(intent)
+            }
         }
 
         override fun getItemCount(): Int {
