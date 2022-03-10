@@ -25,6 +25,7 @@ import kotlin.math.log
 class MessageActivity : AppCompatActivity() {
 
     var destinationUid : String? = null
+    var selectProductName : String? = null
     var uid : String? = null
     var chatRoomUid : String? = null
     var messages : ArrayList<ChatDTO.MessageDTO> = arrayListOf()
@@ -35,6 +36,8 @@ class MessageActivity : AppCompatActivity() {
 
         // 지금 내가 대화를 건 상대(대화를 당하는 아이디)
         destinationUid = intent.getStringExtra("destinationUid")    // 오바마의 uid
+        // 관심있는 상품의 이름
+        selectProductName = intent.getStringExtra("selectProductName")
         // 대화 신청을 건 아이디(대화를 요규한 아이디)
         uid = FirebaseAuth.getInstance().currentUser?.uid
 
@@ -49,6 +52,11 @@ class MessageActivity : AppCompatActivity() {
         }
 
         checkChatRoom()     // 방이 있는지 없는지 체크한다.
+
+        // 상품을 보고 메시지 신청을 걸었다면 어떤 상품을 보고왔는지 메시지 미리 입력
+        if (selectProductName != null){
+            messageActivity_et_message.setText("회원님의 상품 중 ${selectProductName} 에 대해 문의드립니다.")
+        }
 
         messageActivity_btn_send.setOnClickListener {       // 전송버튼 누를시
             var chatDTO : ChatDTO = ChatDTO()

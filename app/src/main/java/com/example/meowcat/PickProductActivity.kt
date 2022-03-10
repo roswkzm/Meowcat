@@ -82,6 +82,7 @@ class PickProductActivity : AppCompatActivity() {
                     }else{
                         var intent = Intent(this, MessageActivity::class.java)
                         intent.putExtra("destinationUid", value.data!!["uid"].toString())
+                        intent.putExtra("selectProductName", value.data!!["productName"].toString())
                         startActivity(intent)
                     }
                 }

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -47,7 +48,7 @@ class ViewpagerAdapter (var destinationUid : String) : RecyclerView.Adapter<View
 
     override fun onBindViewHolder(holder: ViewpagerAdapter.ViewPagerViewHolder, position: Int) {
         val view = (holder as ViewPagerViewHolder).itemView
-
+        var selectProductName : String? = null
         // 회원 프사 매핑, 닉네임 매핑
         FirebaseFirestore.getInstance().collection("users").document(destinationUid).addSnapshotListener { value, error ->
             if(value == null) return@addSnapshotListener
@@ -64,6 +65,7 @@ class ViewpagerAdapter (var destinationUid : String) : RecyclerView.Adapter<View
             if(value.data != null){
                 // 고양이 이름
                 view.pickProduct_tv_productName.text = value.data!!["productName"].toString()
+                selectProductName = value.data!!["productName"].toString()
                 // 고양이 성별
                 if (value.data!!["productGender"].toString() == "남") {
                     view.pickProduct_iv_productGender.setImageResource(R.drawable.male_symbol)
@@ -97,6 +99,17 @@ class ViewpagerAdapter (var destinationUid : String) : RecyclerView.Adapter<View
             intent.putExtra("destinationUid", destinationUid)
             // viewPager2에서 startActivity를 하고싶으면 context에서 .startActivity를 해야한다.
             view.context.startActivity(intent)
+        }
+        // 메시지 보내기 버튼 클릭시
+        view.pickProduct_iv_message.setOnClickListener {
+            if (FirebaseAuth.getInstance().currentUser!!.uid == destinationUid){
+                Toast.makeText(view.context,"내가 판매중인 상품입니다.", Toast.LENGTH_SHORT).show()
+            }else{
+                var intent = Intent(view.context, MessageActivity::class.java)
+                intent.putExtra("destinationUid", destinationUid)
+                intent.putExtra("selectProductName", selectProductName)
+                view.context.startActivity(intent)
+            }
         }
         // 판매자 상품 더보기 버튼 지우기
         view.pickProduct_btn_moreProduct.visibility = View.GONE

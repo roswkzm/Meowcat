@@ -95,6 +95,7 @@ class MessageListFragment : Fragment(){
 
         init {
             lastMessage = lastMessageDTO
+
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -136,6 +137,5 @@ class MessageListFragment : Fragment(){
         override fun getItemCount(): Int {
             return chatRoomUids.size
         }
-
     }
 }
