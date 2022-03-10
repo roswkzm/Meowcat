@@ -95,6 +95,7 @@ class AddPhotoActivity : AppCompatActivity() {
                 var contentDTO = ContentDTO()
 
                 contentDTO.imageUrl = uri.toString()                                // 사진 주소
+                contentDTO.imageName = imageFileName                                // 사진 이름
                 contentDTO.uid = auth?.currentUser?.uid                             // 회원 uid
                 contentDTO.userId = auth?.currentUser?.email                        // 회원 email
                 contentDTO.timestamp = System.currentTimeMillis()                   // 사진 등록 시간

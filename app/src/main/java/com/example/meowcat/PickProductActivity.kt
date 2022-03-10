@@ -5,18 +5,25 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.TextKeyListener.clear
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.meowcat.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_pick_product.*
 
 var contentUid : String? = null
 var destinationUid : String? = null
 var destinationUserId : String? = null
+var productType : String? = null
+var productTypeCount : Int? = null
+var productImageName : String? = null
 class PickProductActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +33,7 @@ class PickProductActivity : AppCompatActivity() {
         contentUid = intent.getStringExtra("contentUidList")
         destinationUid = intent.getStringExtra("destinationUid")
         destinationUserId = intent.getStringExtra("destinationUserId")
+
 
         // 회원 프사 매핑, 닉네임 매핑
         FirebaseFirestore.getInstance().collection("users").document(destinationUid!!).addSnapshotListener { value, error ->
@@ -52,6 +60,8 @@ class PickProductActivity : AppCompatActivity() {
                 }
                 // 고양이 사진
                 Glide.with(this).load(value.data?.get("imageUrl")).into(pickProduct_iv_productImage)
+                // 고양이 사진이름
+                productImageName = value.data!!.get("imageName").toString()
                 // 고양이 이름
                 pickProduct_tv_productName.text = " 이름 : ${value.data!!["productName"].toString()}"
                 // 고양이 성별
@@ -62,6 +72,7 @@ class PickProductActivity : AppCompatActivity() {
                 }
                 // 고양이 종류
                 pickProduct_tv_productType.text = " 종류 : ${value.data!!["productType"].toString()}"
+                productType = value.data!!["productType"].toString()
                 // 고양이 설명
                 pickProduct_tv_productExplain.text = value.data!!["productExplain"].toString()
                 // 좋아요 개수
@@ -107,6 +118,43 @@ class PickProductActivity : AppCompatActivity() {
             var intent = Intent(this, ContentDetailActivity::class.java)
             intent.putExtra("destinationUid", destinationUid)
             startActivity(intent)
+        }
+
+        // 만약 내자신의 상품이면 상품 삭제 버튼이 보이도록 한다
+        if (FirebaseAuth.getInstance().currentUser!!.uid == destinationUid){
+            pickProduct_btn_removeProduct.visibility = View.VISIBLE
+            // 상품 삭제 버튼 클릭시
+            pickProduct_btn_removeProduct.setOnClickListener {
+                finish()    // 화면 종료
+
+                // Firestorage에서 사진 삭제
+                FirebaseStorage.getInstance().reference.child("images").child(productImageName!!).delete()
+
+                FirebaseFirestore.getInstance().collection("images").whereEqualTo("productType", productType).get().addOnCompleteListener { task ->
+                    if (task.isSuccessful){
+                        Log.d("ㅎㅇㅎㅇ1", task.result.size().toString())
+                        productTypeCount = task.result.size()
+                        Log.d("ㅎㅇㅎㅇ2", task.result.size().toString())
+                        if (productTypeCount == 1){     // 만약 해당 품종이 1개 남았다면
+                            var updates = hashMapOf<String, Any>(
+                                productType!! to FieldValue.delete()    // 품종 정보에서 해당 품종을 삭제한다.
+                            )
+                            FirebaseFirestore.getInstance().collection("information").document("productType")
+                                .update(updates).addOnCompleteListener { Log.d("ㅎㅇㅎㅇ", "타입지우기 성공") }
+                            // 사진과 관련된 정보 삭제
+                            FirebaseFirestore.getInstance().collection("images").document(contentUid!!).delete().addOnSuccessListener {
+                                Toast.makeText(this,"상품이 삭제되었습니다.", Toast.LENGTH_SHORT ).show()
+                            }
+                        }else{
+                            // 사진과 관련된 정보 삭제
+                            FirebaseFirestore.getInstance().collection("images").document(contentUid!!).delete().addOnSuccessListener {
+                                Toast.makeText(this,"상품이 삭제되었습니다.", Toast.LENGTH_SHORT ).show()
+                            }
+                        }
+                    }
+                }
+
+            }
         }
     }
 

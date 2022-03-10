@@ -10,7 +10,8 @@ data class ContentDTO(      // 게시글 DTO
     var userId : String? = null,        // 판매자 Email
     var timestamp : Long? = null,       // 상품등록시간
     var favoriteCount : Int = 0,        // 상품 좋아요 갯수
-    var favorites : ArrayList<String> = arrayListOf()     // 상품 좋아요 중복 방지
+    var favorites : ArrayList<String> = arrayListOf(),     // 상품 좋아요 중복 방지
+    var imageName : String? = null
 
 )
 {
