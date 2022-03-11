@@ -18,16 +18,15 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class AccountFragment : Fragment(){
 
-    var uid : String? = null
+    var destinationUid : String? = null
     var currentUid : String ? = null
     var auth : FirebaseAuth? = null
     val adminUid : String = "wJNThceh9nb6jdUjbgWNjsfrnX42"
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.activity_account_fragment, container, false)
 
-        uid = arguments?.getString("destinationUid")    // AccountFragment로 이동할 때 받아온 대상의 uid
+        destinationUid = arguments?.getString("destinationUid")    // AccountFragment로 이동할 때 받아온 대상의 uid
         auth = FirebaseAuth.getInstance()
         currentUid = auth?.currentUser?.uid     // 내 uid
 
@@ -38,8 +37,8 @@ class AccountFragment : Fragment(){
                 var intent = Intent(context, AddPhotoActivity::class.java)
                 startActivity(intent)
             }
-
         }
+
         view.btn_logout.setOnClickListener {
             var intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)

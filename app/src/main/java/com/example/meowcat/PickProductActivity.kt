@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.meowcat.navigation.model.ChatDTO
 import com.example.meowcat.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -99,6 +100,7 @@ class PickProductActivity : AppCompatActivity() {
                 }
             }
         }
+
 
         // 좋아요버튼 클릭시
         pickProduct_iv_favorite.setOnClickListener {
