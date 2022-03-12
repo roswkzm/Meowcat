@@ -1,6 +1,9 @@
 package com.example.meowcat.navigation.model
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +29,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_account.*
+import kotlinx.android.synthetic.main.dialog_nickname.view.*
 
 class AccountActivity : AppCompatActivity() {
 
@@ -34,6 +38,7 @@ class AccountActivity : AppCompatActivity() {
     var uid : String? = null
     val PICK_USER_PROFILE_FORM_ALBUM = 10
     var photoUri : Uri? = null
+    var userNickName : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,13 +63,15 @@ class AccountActivity : AppCompatActivity() {
                 startActivity(intent)
                 FirebaseAuth.getInstance()?.signOut()
             }
-             //계정 아이디 띄워주는 부분 삭제
-            account_toolbar_username.visibility = View.GONE
             // 프로필 사진 변경 기능
             account_iv_profile.setOnClickListener {
                 var getUserProfileImg = Intent(Intent.ACTION_PICK)
                 getUserProfileImg.type = "image/*"
                 startActivityForResult(getUserProfileImg, PICK_USER_PROFILE_FORM_ALBUM)
+            }
+            // 닉네임 변경 가능
+            account_btn_changeNickName.setOnClickListener {
+                showNickNameDialog()
             }
 
             // 내 아이디가 판매자일 경우
@@ -76,7 +83,8 @@ class AccountActivity : AppCompatActivity() {
                 }
             }
         }else{      // 다른 사람의 계정에 접근했을 경우
-
+            // 닉네임 변경 불가능
+            account_btn_changeNickName.visibility = View.GONE
         }
 
 
@@ -95,7 +103,8 @@ class AccountActivity : AppCompatActivity() {
                     return@continueWithTask storageRef.downloadUrl
                 }.addOnSuccessListener { uri ->
                     // 그 사진의 downloadUrl을 Firestore에 저장
-                    FirebaseFirestore.getInstance().collection("users").document(destinationUid!!).update("imageUrl",uri.toString()).addOnSuccessListener {
+                    FirebaseFirestore.getInstance().collection("users").document(destinationUid!!)
+                        .update("imageUrl",uri.toString()).addOnSuccessListener {
                         Toast.makeText(this,"사진이 변경될때까지 잠시 기다려주세요.", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -109,13 +118,34 @@ class AccountActivity : AppCompatActivity() {
         FirebaseFirestore.getInstance().collection("users").document(destinationUid!!).addSnapshotListener { value, error ->
             if (value == null) return@addSnapshotListener
             if (value.data != null){
-                // 상단 툴바 회원 닉네임 연결
-                account_toolbar_username.text = value.data!!["userNickName"].toString()
+                // 회원 닉네임 연결
+                userNickName = value.data!!["userNickName"].toString()
+                account_tv_userNickName.text = "${userNickName}님의 상점"
                 // 회원 프로필 사진 연결
                 var url = value.data!!["imageUrl"]
                 Glide.with(this).load(url).apply(RequestOptions().circleCrop()).into(account_iv_profile)
             }
         }
+    }
+
+    // Dialog를 통해 닉네임 변경하기
+    fun showNickNameDialog(){
+
+        val builder = AlertDialog.Builder(this)
+        var dialogView = layoutInflater.inflate(R.layout.dialog_nickname,null)
+        dialogView.nickNameDialog_et_nickName.setText(userNickName)
+        builder.setView(dialogView).setPositiveButton("변경",
+            DialogInterface.OnClickListener { dialogInterface, i ->
+                FirebaseFirestore.getInstance().collection("users").document(destinationUid!!)
+                    .update("userNickName",dialogView.nickNameDialog_et_nickName.text.toString()).addOnSuccessListener {
+                        Toast.makeText(this, "닉네임이 변경되었습니다.", Toast.LENGTH_SHORT).show()
+                    }
+            })
+            .setNegativeButton("취소",
+            DialogInterface.OnClickListener { dialogInterface, i ->
+
+            })
+        builder.show()
     }
 
     inner class AccountActivityRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
@@ -129,6 +159,7 @@ class AccountActivity : AppCompatActivity() {
                     for (snapshot in value.documents){
                         contentDTOs.add(snapshot.toObject(ContentDTO::class.java)!!)
                     }
+                    account_tv_productCount.text = "판매중인 상품 ${contentDTOs.size}개"
                     notifyDataSetChanged()
                 }
         }

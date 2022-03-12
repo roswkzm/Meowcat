@@ -23,6 +23,7 @@
         <entry key="app/src/main/res/layout/activity_pick_product.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.22871376811594202" />
         <entry key="app/src/main/res/layout/activity_search_fragment.xml" value="0.22146739130434784" />
+        <entry key="app/src/main/res/layout/dialog_nickname.xml" value="0.21875" />
         <entry key="app/src/main/res/layout/item_chat_list.xml" value="0.2015625" />
         <entry key="app/src/main/res/layout/item_comment.xml" value="0.375" />
         <entry key="app/src/main/res/layout/item_contentDetail.xml" value="0.21331521739130435" />

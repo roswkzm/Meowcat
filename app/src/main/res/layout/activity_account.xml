@@ -17,14 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/account_toolbar_username"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="UserID"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -63,9 +55,22 @@
             android:id="@+id/account_btn_logout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
             android:layout_toRightOf="@id/account_iv_profile"
             android:text="로그아웃"
-            android:layout_alignParentBottom="true"/>
+            android:backgroundTint="#64FFDA"/>
+
+        <TextView
+            android:id="@+id/account_tv_userNickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/account_iv_profile"
+            android:text="ㅇㅇㅇ님의 상점"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"/>
 
         <TextView
             android:id="@+id/account_tv_productCount"
@@ -73,8 +78,20 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/account_iv_profile"
             android:text="판매중인 상품 10개"
+            android:layout_below="@id/account_tv_userNickName"
+            android:textSize="17sp"
             android:textStyle="bold"
-            android:textSize="17sp"/>
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="10dp"/>
+
+        <Button
+            android:id="@+id/account_btn_changeNickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:backgroundTint="#FF4081"
+            android:text="닉네임 변경"
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 
