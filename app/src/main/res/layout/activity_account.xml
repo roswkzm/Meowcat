@@ -42,6 +42,7 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:visibility="gone"/>
+
         </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>
@@ -58,12 +59,32 @@
             android:layout_alignParentLeft="true"
             android:src="@drawable/ic_account" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/account_btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@id/account_iv_profile"
+            android:text="로그아웃"
+            android:layout_alignParentBottom="true"/>
+
+        <TextView
+            android:id="@+id/account_tv_productCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/account_iv_profile"
+            android:text="판매중인 상품 10개"
+            android:textStyle="bold"
+            android:textSize="17sp"/>
+
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/account_btn_logout"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/account_recyclerView"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="로그아웃" />
+        android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>
