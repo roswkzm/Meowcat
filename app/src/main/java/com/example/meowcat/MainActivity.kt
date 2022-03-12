@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.example.meowcat.navigation.*
+import com.example.meowcat.navigation.model.AccountActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         val auth = FirebaseAuth.getInstance()
 
+
         FirebaseFirestore.getInstance().collection("users").document(auth.currentUser!!.uid).get().addOnCompleteListener { task ->
             if(task.isSuccessful){
                 if (task.result.exists()){
@@ -39,7 +41,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        setToolbarDefault()
         when(item.itemId){
             R.id.action_home -> {
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, HomeFragment()).commit()
@@ -58,24 +59,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 return true
             }
             R.id.action_account -> {
-                //자신의 account인지 알아보기 위한 uid 넘기기
-                var bundle = Bundle()
-                var uid = FirebaseAuth.getInstance().currentUser?.uid
-                bundle.putString("destinationUid", uid)
-                AccountFragment().arguments = bundle
-
-                supportFragmentManager.beginTransaction().replace(R.id.main_content, AccountFragment()).commit()
+                var intent = Intent(this, AccountActivity::class.java)
+                intent.putExtra("destinationUid", FirebaseAuth.getInstance().currentUser?.uid)
+                startActivity(intent)
                 return true
             }
         }
         return false
-    }
-
-    fun setToolbarDefault(){
-        toolbar_btn_back.visibility = View.GONE
-        toolbar_username.visibility = View.GONE
-        toolbar_title_image.visibility = View.VISIBLE
-        btn_addProduct.visibility = View.GONE
     }
 
     override fun onBackPressed() {

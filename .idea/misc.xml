@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable/btnone.xml" value="0.2490740740740741" />
         <entry key="app/src/main/res/drawable/round_backgroud_border_black.xml" value="0.2361111111111111" />
         <entry key="app/src/main/res/drawable/textvw1.xml" value="0.2490740740740741" />
+        <entry key="app/src/main/res/layout/activity_account.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_account_fragment.xml" value="0.22146739130434784" />
         <entry key="app/src/main/res/layout/activity_add_photo.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_add_user.xml" value="0.25" />

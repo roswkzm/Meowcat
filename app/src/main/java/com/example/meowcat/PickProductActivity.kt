@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.meowcat.navigation.model.AccountActivity
 import com.example.meowcat.navigation.model.ChatDTO
 import com.example.meowcat.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
@@ -48,6 +49,12 @@ class PickProductActivity : AppCompatActivity() {
             }
         }
 
+        // 회원의 프사 클릭시
+        pickProduct_iv_profile.setOnClickListener {
+            var intent = Intent(this, AccountActivity::class.java)
+            intent.putExtra("destinationUid", destinationUid)
+            startActivity(intent)
+        }
 
 
         FirebaseFirestore.getInstance().collection("images").document(contentUid!!).addSnapshotListener { value, error ->
