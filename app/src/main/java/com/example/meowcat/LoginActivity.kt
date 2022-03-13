@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -34,6 +35,7 @@ class LoginActivity : AppCompatActivity() {
     var callbackManager : CallbackManager? = null
     var googleSignInClient : GoogleSignInClient? = null
     var GOOGLE_LOGIN_CODE = 9001
+    var waitTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -160,12 +162,12 @@ class LoginActivity : AppCompatActivity() {
         auth?.signInWithEmailAndPassword(et_email.text.toString(), et_password.text.toString())?.addOnCompleteListener {
             task ->
             if (task.isSuccessful){
-//                // 만약 이메일 링크 인증을 한 회원일 경우
-//                if (auth?.currentUser?.isEmailVerified!!) {
-//                    moveMainPage(task.result.user)
-//                } else {
-//                    Toast.makeText(this, "${et_email.text.toString()}에 접속하여 인증을 해주세요.", Toast.LENGTH_SHORT).show()
-//                }
+                // 만약 이메일 링크 인증을 한 회원일 경우
+                if (auth?.currentUser?.isEmailVerified!!) {
+                    moveMainPage(task.result.user)
+                } else {
+                    Toast.makeText(this, "${et_email.text.toString()}에 접속하여 인증을 해주세요.", Toast.LENGTH_SHORT).show()
+                }
             }else{
                 Toast.makeText(this, task.exception?.message, Toast.LENGTH_SHORT).show()
             }
@@ -182,5 +184,16 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         moveMainPage(auth?.currentUser)
+    }
+
+    // 방금 로그아웃을 했는데 뒤로가기를 하면 다시 AccountActivity 로 돌아가는 문제 방지
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - waitTime >=1500 ) {
+            waitTime = System.currentTimeMillis()
+            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+        } else {
+            ActivityCompat.finishAffinity(this)
+            System.exit(0)
+        }
     }
 }

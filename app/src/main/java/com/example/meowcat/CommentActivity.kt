@@ -52,7 +52,7 @@ class CommentActivity : AppCompatActivity() {
         // init에서 정보를 addsnapshot으로 계속 최신화 하는데 그걸 bindViewHolder에서 뿌림
         init {
             FirebaseFirestore.getInstance().collection("images").document(contentUid!!)
-                .collection("comments").orderBy("timestamp",Query.Direction.DESCENDING)
+                .collection("comments").orderBy("timestamp",Query.Direction.ASCENDING)
                 .addSnapshotListener { value, error ->
                     comments.clear()
                     if(value == null) return@addSnapshotListener

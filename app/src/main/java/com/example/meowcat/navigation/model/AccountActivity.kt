@@ -18,10 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.meowcat.AddPhotoActivity
-import com.example.meowcat.LoginActivity
-import com.example.meowcat.PICK_IMAGE_FROM_ALBUM
-import com.example.meowcat.R
+import com.example.meowcat.*
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -62,6 +59,7 @@ class AccountActivity : AppCompatActivity() {
                 var intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 FirebaseAuth.getInstance()?.signOut()
+                finish()
             }
             // 프로필 사진 변경 기능
             account_iv_profile.setOnClickListener {
