@@ -31,6 +31,7 @@ class RegisterActivity : AppCompatActivity() {
                                     Toast.makeText(this, "메일로 인증링크를 발송하였습니다.", Toast.LENGTH_SHORT).show()
                                     var intent = Intent(this, LoginActivity::class.java)
                                     startActivity(intent)
+                                    FirebaseAuth.getInstance().signOut()
                                     finish()
                                 } else {
                                     Toast.makeText(this, task.exception?.message, Toast.LENGTH_SHORT).show()
