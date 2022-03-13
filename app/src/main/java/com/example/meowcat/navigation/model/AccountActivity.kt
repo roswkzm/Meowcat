@@ -148,14 +148,17 @@ class AccountActivity : AppCompatActivity() {
 
     inner class AccountActivityRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         var contentDTOs : ArrayList<ContentDTO> = arrayListOf()
+        var contentUids : ArrayList<String> = arrayListOf()
 
         init {
             FirebaseFirestore.getInstance().collection("images").whereEqualTo("uid",destinationUid)
                 .orderBy("timestamp",Query.Direction.DESCENDING).addSnapshotListener { value, error ->
                     if (value == null)return@addSnapshotListener
                     contentDTOs.clear()
+                    contentUids.clear()
                     for (snapshot in value.documents){
                         contentDTOs.add(snapshot.toObject(ContentDTO::class.java)!!)
+                        contentUids.add(snapshot.id)
                     }
                     account_tv_nonProduct.visibility = View.GONE
                     account_tv_productCount.text = "판매중인 상품 ${contentDTOs.size}개"
@@ -179,7 +182,13 @@ class AccountActivity : AppCompatActivity() {
             var imageview = (holder as CustomViewHolder).imageView
             // 각각의 imageView에 사진 매칭
             Glide.with(holder.itemView.context).load(contentDTOs[position].imageUrl).apply(RequestOptions().centerCrop()).into(imageview)
-
+            // 각각의 imageView 사진 클릭시
+            imageview.setOnClickListener {
+                var intent = Intent(this@AccountActivity, PickProductActivity::class.java)
+                intent.putExtra("contentUidList", contentUids[position])
+                intent.putExtra("destinationUid", destinationUid)
+                startActivity(intent)
+            }
         }
 
         override fun getItemCount(): Int {
