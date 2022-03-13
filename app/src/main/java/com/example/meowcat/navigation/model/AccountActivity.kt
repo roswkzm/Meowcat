@@ -75,7 +75,7 @@ class AccountActivity : AppCompatActivity() {
             }
 
             // 내 아이디가 판매자일 경우
-            if (uid == adminUid){
+            if (destinationUid == adminUid){
                 account_btn_addProduct.visibility = View.VISIBLE
                 account_btn_addProduct.setOnClickListener {
                     var intent = Intent(this, AddPhotoActivity::class.java)
@@ -159,6 +159,7 @@ class AccountActivity : AppCompatActivity() {
                     for (snapshot in value.documents){
                         contentDTOs.add(snapshot.toObject(ContentDTO::class.java)!!)
                     }
+                    account_tv_nonProduct.visibility = View.GONE
                     account_tv_productCount.text = "판매중인 상품 ${contentDTOs.size}개"
                     notifyDataSetChanged()
                 }

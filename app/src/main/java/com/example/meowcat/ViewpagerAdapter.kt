@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.meowcat.navigation.model.AccountActivity
 import com.example.meowcat.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -88,6 +89,14 @@ class ViewpagerAdapter (var destinationUid : String) : RecyclerView.Adapter<View
                 view.pickProduct_tv_productExplain.text = value.data!!["productExplain"].toString()
             }
         }
+
+        // 회원 프로필 사진 클릭시
+        view.pickProduct_iv_profile.setOnClickListener {
+            var intent = Intent(view.context, AccountActivity::class.java)
+            intent.putExtra("destinationUid", destinationUid)
+            view.context.startActivity(intent)
+        }
+
         // 좋아요 버튼 클릭시
         view.pickProduct_iv_favorite.setOnClickListener {
             favoriteEvent(position)

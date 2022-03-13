@@ -76,13 +76,13 @@
             android:id="@+id/account_tv_productCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/account_iv_profile"
-            android:text="판매중인 상품 10개"
             android:layout_below="@id/account_tv_userNickName"
-            android:textSize="17sp"
-            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="7dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_toRightOf="@id/account_iv_profile"
+            android:text="판매중인 상품 0개"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/account_btn_changeNickName"
@@ -95,13 +95,27 @@
 
     </RelativeLayout>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/account_recyclerView"
-        android:layout_marginTop="5dp"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/account_recyclerView"
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/account_tv_nonProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="40sp"
+            android:layout_centerInParent="true"
+            android:text="판매중인 상품이 존재하지 않습니다."
+            android:textSize="25sp"
+            android:visibility="visible" />
+
+    </RelativeLayout>
 
 </LinearLayout>
