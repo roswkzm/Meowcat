@@ -83,6 +83,12 @@ class AccountActivity : AppCompatActivity() {
         }else{      // 다른 사람의 계정에 접근했을 경우
             // 닉네임 변경 불가능
             account_btn_changeNickName.visibility = View.GONE
+            account_btn_logout.text = "메시지 보내기"
+            account_btn_logout.setOnClickListener {
+                var intent = Intent(this, MessageActivity::class.java)
+                intent.putExtra("destinationUid", destinationUid)
+                startActivity(intent)
+            }
         }
 
 

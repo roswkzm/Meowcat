@@ -1,5 +1,6 @@
 package com.example.meowcat
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.meowcat.navigation.model.AccountActivity
 import com.example.meowcat.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -83,6 +85,11 @@ class CommentActivity : AppCompatActivity() {
                         var url = value.result!!["imageUrl"]
                         Glide.with(view.context).load(url).apply(RequestOptions().circleCrop()).into(view.commentItem_iv_profile)
                         view.commentItem_tv_userNickName.text = value.result!!["userNickName"].toString()
+                        view.commentItem_iv_profile.setOnClickListener {
+                            var intent = Intent(this@CommentActivity, AccountActivity::class.java)
+                            intent.putExtra("destinationUid", value.result!!["uid"].toString())
+                            startActivity(intent)
+                        }
                     }
                 }
         }
